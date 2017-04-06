@@ -12,7 +12,6 @@ How to get started:
 
 3. Put the pitboss to map view
 
-4. Set up the script (coords, player names, and your ip&s3 conf)
-  . AutoIt window info tool is good for figuring out the coordinates
+4. Set up the script (coords, player names, and your ip&s3 conf) -- AutoIt window info tool is good for figuring out the coordinates
 
 5. run it with AutoIt
