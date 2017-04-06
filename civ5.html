@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Civ5PitbossStatus</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="logo-square.png"/>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .outer {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            text-align: center;
+            font-family: "Verdana", sans-serif;
+            font-size: 14px;
+        }
+
+        .container {
+            height: 90%;
+            margin-top: 10px;
+        }
+
+        .container img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="outer">
+    <div class="container">
+        <img src="score.jpg" alt="score"/>
+        <img src="timer.jpg" alt="timer"/>
+        <p id="text"></p>
+    </div>
+</div>
+<script>
+    var client = new XMLHttpRequest();
+    client.open('GET', '/civ5.txt');
+    client.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var htmlContent = "";
+            responseArray = client.responseText.split(/\n/);
+            for (var i = 0; i < responseArray.length; i++) {
+                if (i == responseArray.length - 2) {
+                    // steam url element
+                    htmlContent += "<a href='" + responseArray[i] + "'>" + responseArray[i] + "</a>";
+                } else {
+                    htmlContent += responseArray[i] + "<br>";
+                }
+            }
+            document.getElementById("text").innerHTML = htmlContent;
+        }
+    };
+    client.send();
+</script>
+</body>
+</html>
