@@ -1,6 +1,7 @@
 #include <FileConstants.au3>
 #include <Date.au3>
 #include <ScreenCapture.au3>
+#include <Inet.au3>
 
 HotKeySet("{ESC}","EndProgram")
 
@@ -38,7 +39,6 @@ Local $aNames[10] = ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5",
 ; website directory which is synced to host
 $baseDir="C:\Users\Me\Documents\Path\Where\To\Website\Base\"
 $awsS3Bucket="s3://myurlifIhaveone.com/ --region eu-central-1"
-$pitbossServerIP="11.222.333.444"
 
 ; ------------ These don't need modification by default ------------------
 ; parameters for resolving who has played turn and who has not
@@ -114,7 +114,7 @@ While True
    If $loopCounter >= $totalLoopCount Then
 	  $loopCounter = 0
 	  $writeContent = $writeContent & "Updated: " & _NowDate() & " " & _NowTime() & @CRLF
-	  $writeContent = $writeContent & "steam://run/8930/q/%2Bconnect%20" & $pitbossServerIP
+	  $writeContent = $writeContent & "steam://run/8930/q/%2Bconnect%20" & _GetIP()
 	  WriteToFile($writeContent)
 	  takeScreenCaptures()
 	  UploadToAWS()
