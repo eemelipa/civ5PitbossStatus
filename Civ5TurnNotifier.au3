@@ -67,6 +67,7 @@ While True
    $writeContent = ""
 
    ; loop through each player and see if color has changed since previous loop
+   $playersGotActive = 0 ; how many players were inactive and now changed back to active
    For $i = 0 To UBound($aCoords) - 1
 	  $color = PixelGetColor(StringLeft($aCoords[$i],3), StringRight($aCoords[$i], 3))
 
@@ -92,6 +93,7 @@ While True
 			; resolve last status change
 			If $aPreviousStatus[$i] = 0 Then ; has to be resolved some other way
 			   $aPreviousStatusChange[$i] = _NowDate() & " " & _NowTime()
+			   $playersGotActive = $playersGotActive + 1
 			EndIf
 
 			; update NAMES content
@@ -118,6 +120,13 @@ While True
 	  WriteToFile($writeContent)
 	  takeScreenCaptures()
 	  UploadToAWS()
+
+	  ; turn changed
+	  ;ConsoleWrite(_NowTime() & " players got active: " & $playersGotActive & @CRLF)
+	  If $playersGotActive >= 5 Then
+		 ConsoleWrite(_NowDate & _NowTime & " turn changed")
+		 UploadTurnChanged()
+	  EndIf
    EndIf
 
    Sleep(1000)
@@ -156,6 +165,9 @@ Func UploadToAWS()
    RunWait(@ComSpec & ' /c aws s3 cp ' & $baseDir & ' ' & $awsS3Bucket & ' --recursive --exclude "*" --include "score.jpg" --include "timer.jpg" --include "civ5.txt"')
 EndFunc
 
+Func UploadTurnChanged()
+   RunWait(@ComSpec & ' /c aws s3 cp ' & $baseDir & ' ' & $awsS3Bucket & ' --recursive --exclude "*" --include "turn_changed.txt"')
+EndFunc
 
 ; ================= END ========================
 Func EndProgram()
