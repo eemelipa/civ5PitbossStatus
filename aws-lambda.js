@@ -27,7 +27,7 @@ exports.handler = (event, context, callback) => {
 	// Send turn changed email
 	var eParams = {
 		Destination: {
-			ToAddresses: ["my.name@email.com"]
+			BccAddresses: ["my.name@email.com"]
 		},
 		Message: {
 			Body: {
