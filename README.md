@@ -15,3 +15,6 @@ How to get started:
 4. Set up the script (coords, player names, and your ip&s3 conf) -- AutoIt window info tool is good for figuring out the coordinates
 
 5. run it with AutoIt
+
+# Email notifications on turn change
+The logic uploads "turn_change.txt" file to aws s3 when enough players change from "turn played" to "turn not played". AWS lambda can receive events from S3 and based on those trigger email sending via SES. Once the lambda function sees "turn_changed.txt" file change it will send the emails.
